@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Project_MVC5.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<p class="btn btn-warning">
+    @Html.ActionLink("Create New", "New")
+</p>
+<hr />
+<table id="customers" class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Customer Name
+            </th>
+            <th class="text-center">
+                Discount Rate
+            </th>
+            <th class="text-center">
+                MembershipType
+            </th>
+            <th class="text-center">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Edit", new { id = item.ID })
+                </td>
+                <td>
+                    @item.MembershipType.DiscountRate
+                </td>
+                <td>
+                    @item.MembershipType.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
+                    <button data-customer-id="@item.ID" class="btn-link js-delete">Delete(Calling APi By using jquery)</button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    @*By Using Bootbox.js*@ 
+    <script>
+        $(document).ready(function () {
+            $("#customers").DataTable();
+            $("#customers .js-delete").on("click", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });   
+               
+            });
+
+        });
+    </script>
+
+    <!-- #Before Using Bootbox.js -->
+    @*<script>
+            $(document).ready(function () {
+                $("#customers .js-delete").on("click", function () {
+                    var button = $(this);
+                    if (confirm("Are you sure to delete this customer?")) {
+                        $.ajax({
+                            url: "/api/Customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        })
+                    }
+
+                });
+
+            });
+        </script>*@
+    <!-- #endregion -->
+
+
+}

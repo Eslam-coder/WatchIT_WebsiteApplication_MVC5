@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "CreateNewRental";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Rental</h2>
+<hr />
+
+<form>
+        <div class="form-group">
+            <label for="customer">Customer</label>
+            <input type="text" id="customer" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="customer">Movie</label>
+            <input type="text"  class="form-control" />
+        </div>
+        <buton class="btn btn-warning">Submit</buton>
+
+</form>
+
+@*Auto Complete*@
+@section scripts{
+        <script>
+            $(document).ready(function () {
+                var vm = {};
+                var customers = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: '/api/Customers?query=%QUERY',
+                        wildcard: '%QUERY'
+                    }
+                });
+
+                $('#customer').typeahead({
+                    minLength: 3,
+                    highlight: true
+                      }
+                    , {
+                        name: 'customers',
+                        display: 'name',
+                        source: customers
+                    }).on("typeahead:select", function (e, customer) {
+                        
+                    });
+
+            });
+        </script>
+    }
+

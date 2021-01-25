@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Project_MVC5.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+<hr />
+<p class="btn btn-warning btn-lg">
+    @Html.ActionLink("New Movie", "Create")
+</p>
+<br />
+<br />
+<table id="Movies" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Movie
+            </th>
+            <th class="text-center">
+                Genre
+            </th>
+            <th class="text-center">
+                Release Date
+            </th>
+            <th class="text-center">
+                Number in stock
+            </th>
+            <th class="text-center">
+                Delete
+            </th>
+
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr class="text-center">
+                <td>
+
+                    @Html.ActionLink(item.Name, "Edit", new { id = item.ID })
+
+                </td>
+                <td>
+                    @item.Genre
+                </td>
+                <td>
+                    @item.ReleaseDate
+                </td>
+                <td>
+                    @item.NumberInStock
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
+                    <button data-movie-id="@item.ID" class="btn-link js-delete">Delete (Calling Api By Using Jquery)</button>
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+
+@section scripts{
+    @*By Using Bootbox.js*@
+    <script>
+        $(document).ready(function () {
+            $("#Movies").DataTable();
+            $("#Movies .js-delete").on("click", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure to delete this movie?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Movies/" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+}

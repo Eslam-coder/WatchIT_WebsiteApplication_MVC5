@@ -1,0 +1,57 @@
+﻿@model Project_MVC5.ViewModel.NewCustomerViewModel
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>Are you sure to delete this customer?</h2>
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.MembershipType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.MembershipType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.IsSubscribedToNewsLetter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.IsSubscribedToNewsLetter)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete","Customers"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+
+

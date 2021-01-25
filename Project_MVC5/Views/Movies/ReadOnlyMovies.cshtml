@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Project_MVC5.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+<hr />
+
+<br />
+<br />
+<table id="Movies" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">
+                Movie
+            </th>
+            <th class="text-center">
+                Genre
+            </th>
+            <th class="text-center">
+                Release Date
+            </th>
+            <th class="text-center">
+                Number in stock
+            </th>
+           
+
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+     {
+        <tbody>
+            <tr class="text-center">
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Genre
+                </td>
+                <td>
+                    @item.ReleaseDate
+                </td>
+                <td>
+                    @item.NumberInStock
+                </td>
+               
+            </tr>
+        </tbody>
+     }
+
+</table>
+
+
